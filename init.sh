@@ -11,3 +11,8 @@ for dir in .config/*; do
         ln -s $(realpath $dir) ~/.config/$(basename $dir)
     fi
 done
+
+if [ ! -L "$HOME/.bashrc" ]; then
+    rm -f ~/.bashrc
+    ln -s $(realpath .bashrc) ~/.bashrc
+fi
