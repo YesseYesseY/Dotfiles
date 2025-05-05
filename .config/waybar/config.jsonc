@@ -12,7 +12,9 @@
         "hyprland/workspaces"
         //"wlr/taskbar"
     ],
-    "modules-center": [],
+    "modules-center": [
+        "hyprland/window"
+    ],
     "modules-right": [
         "cpu",
         "temperature",

@@ -11,6 +11,7 @@
 
 /*base border color*/
 @define-color border_main #00FF99 /*rgba(255, 255, 255, 0.2)*/;
+@define-color border_main_inactive #595959 /*rgba(255, 255, 255, 0.2)*/;
 
 /*text color for entries, views and content in general */
 @define-color content_main white;
@@ -32,6 +33,12 @@ window#waybar {
     border-top: 2px solid @border_main;
     color: @content_main;
 }
+
+/*
+window#waybar.empty {
+    border-top: 2px solid @border_main_inactive;
+}
+*/
 
 tooltip {
     background: @bg_main_tooltip;
