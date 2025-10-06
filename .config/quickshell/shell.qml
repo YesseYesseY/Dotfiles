@@ -1,7 +1,9 @@
+//@ pragma UseQApplication
 import Quickshell
 import Quickshell.Io
 import Quickshell.Hyprland
 import Quickshell.Services.Pipewire
+import Quickshell.Services.SystemTray
 import QtQuick
 import QtQuick.Controls
 
@@ -56,24 +58,15 @@ Scope {
             Row {
                 anchors.right: parent.right
 
-                Rectangle {
+                Button {
                     id: mixerRect
                     property bool windowActive: false
 
                     width: root.implicitHeight
                     height: root.implicitHeight
+                    text: ""
+                    onClicked: windowActive = !windowActive
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: (mouse) => {
-                            parent.windowActive = !parent.windowActive
-                        }
-                    }
-                    Text {
-                        anchors.centerIn: parent
-                        text: ""
-
-                    }
                     LazyLoader {
                         active: Pipewire.ready && mixerRect.windowActive
 
@@ -119,6 +112,62 @@ Scope {
                             }
                         }
                     }
+                }
+
+                Button {
+                    id: appButton
+                    property bool windowActive: false
+                    width: root.implicitHeight
+                    height: root.implicitHeight
+                    onClicked: windowActive = !windowActive
+
+                    LazyLoader {
+                        active: appButton.windowActive
+
+                        PopupWindow {
+                            id: appWindow
+                            anchor.window: root
+                            anchor.rect.x: parentWindow.width
+                            anchor.rect.y: parentWindow.height + 5
+                            implicitWidth: 250
+                            implicitHeight: 250
+                            visible: true
+
+                            Column {
+                                Repeater {
+                                    model: SystemTray.items
+
+                                    Rectangle {
+                                        required property var modelData
+                                        width: 50
+                                        height: 50
+
+                                        Image {
+                                            id: uwu
+                                            source: modelData.icon
+                                            anchors.fill: parent
+                                        }
+
+                                        MouseArea {
+                                            id: appMouseArea
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                if (modelData.hasMenu)
+                                                    appMenuAnchor.open()
+                                            }
+                                        }
+
+                                        QsMenuAnchor {
+                                            id: appMenuAnchor
+                                            menu: modelData.menu
+                                            anchor.item: parent
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }
