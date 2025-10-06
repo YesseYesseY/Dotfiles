@@ -92,22 +92,28 @@ Scope {
                                 node: Pipewire.defaultAudioSink
                             }
 
-                            Column {
-                                PwObjectTracker {
-                                    objects: nodeLinkTracker.linkGroups.map(e => e.source)
-                                }
-                                Repeater {
-                                    model:  nodeLinkTracker.linkGroups.map(e => e.source)
+                            PwObjectTracker {
+                                objects: Pipewire.defaultAudioSink
+                            }
 
-                                    Column {
+                            Column {
+                                id: mixerEntries
+                                property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
+
+                                PwObjectTracker {
+                                    objects: mixerEntries.pipenodes
+                                }
+
+                                MixerEntry {
+                                    node: Pipewire.defaultAudioSink
+                                }
+
+                                Repeater {
+                                    model: mixerEntries.pipenodes
+
+                                    MixerEntry {
                                         required property var modelData
-                                        Text {
-                                            text: modelData.name + " - " + modelData.properties["media.name"]
-                                        }
-                                        Slider {
-                                            value: modelData.audio.volume
-                                            onMoved: modelData.audio.volume = value
-                                        }
+                                        node: modelData
                                     }
                                 }
                             }

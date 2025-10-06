@@ -12,6 +12,8 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.clipboard = 'unnamedplus'
 
+vim.g.netrw_bufsettings = 'noma nomod nowrap ro nobl nu rnu'
+
 vim.pack.add{
   { src = 'https://github.com/neovim/nvim-lspconfig' },
   { src = 'https://github.com/folke/tokyonight.nvim' },
@@ -21,7 +23,7 @@ vim.pack.add{
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('i', '<c-space>', function() vim.lsp.completion.get() end)
-vim.keymap.set('n', '<leader>se', '<cmd>Explore<CR><cmd>set number rnu<CR>')
+vim.keymap.set('n', '<leader>se', '<cmd>Explore<CR>')
 vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>')
 vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>')
 
