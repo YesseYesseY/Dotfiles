@@ -58,15 +58,23 @@ Scope {
                 id: rightSideRow
                 anchors.right: parent.right
                 layoutDirection: Qt.RightToLeft
+                    topPadding: 2.5
+                    spacing: 2.5
 
-                Button {
+                MouseArea {
                     id: mixerRect
                     property bool windowActive: false
 
                     width: root.implicitHeight
                     height: root.implicitHeight
-                    text: ""
                     onClicked: windowActive = !windowActive
+                    Text {
+                        text: ""
+                        color: "white"
+                        font.pixelSize: 20
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
 
                     LazyLoader {
                         active: Pipewire.ready && mixerRect.windowActive
@@ -117,8 +125,6 @@ Scope {
 
 
                 Row {
-                    topPadding: 2.5
-                    spacing: 2.5
                     Repeater {
                         model: SystemTray.items
 
