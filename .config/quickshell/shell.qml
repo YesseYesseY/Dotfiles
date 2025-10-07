@@ -27,7 +27,6 @@ Scope {
     
             Row {
                 Repeater {
-
                     model: Hyprland.workspaces.values.filter(e => e.monitor.id == root.hyprlandMonitor.id)
 
                     Rectangle {
@@ -56,7 +55,9 @@ Scope {
             }
 
             Row {
+                id: rightSideRow
                 anchors.right: parent.right
+                layoutDirection: Qt.RightToLeft
 
                 Button {
                     id: mixerRect
@@ -114,60 +115,33 @@ Scope {
                     }
                 }
 
-                Button {
-                    id: appButton
-                    property bool windowActive: false
-                    width: root.implicitHeight
-                    height: root.implicitHeight
-                    onClicked: windowActive = !windowActive
 
-                    LazyLoader {
-                        active: appButton.windowActive
+                Row {
+                    topPadding: 2.5
+                    spacing: 2.5
+                    Repeater {
+                        model: SystemTray.items
 
-                        PopupWindow {
-                            id: appWindow
-                            anchor.window: root
-                            anchor.rect.x: parentWindow.width
-                            anchor.rect.y: parentWindow.height + 5
-                            implicitWidth: 250
-                            implicitHeight: 250
-                            visible: true
+                        Image {
+                            required property var modelData
+                            width: 25
+                            height: 25
+                            source: modelData.icon
 
-                            Column {
-                                Repeater {
-                                    model: SystemTray.items
+                            MouseArea {
+                                id: sysTrayMouseArea
+                                anchors.fill: parent
+                                onClicked: sysTrayMenuAnchor.open()
+                            }
 
-                                    Rectangle {
-                                        required property var modelData
-                                        width: 50
-                                        height: 50
-
-                                        Image {
-                                            id: uwu
-                                            source: modelData.icon
-                                            anchors.fill: parent
-                                        }
-
-                                        MouseArea {
-                                            id: appMouseArea
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                if (modelData.hasMenu)
-                                                    appMenuAnchor.open()
-                                            }
-                                        }
-
-                                        QsMenuAnchor {
-                                            id: appMenuAnchor
-                                            menu: modelData.menu
-                                            anchor.item: parent
-                                        }
-                                    }
-                                }
+                            QsMenuAnchor {
+                                id: sysTrayMenuAnchor
+                                menu: modelData.menu
+                                anchor.item: parent
+                                anchor.rect.y: sysTrayMouseArea.mouseY
                             }
                         }
                     }
-
                 }
             }
         }

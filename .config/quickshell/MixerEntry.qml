@@ -8,7 +8,7 @@ Column {
     required property var node
     Text {
         text: (node.description == "" ? node.name : node.description) + 
-                (node.properties.hasOwnProperty("media.name") ? ` - ${node.properties["media.name"]}` : "")
+                (node.properties.hasOwnProperty("media.name") ? ` (${node.properties["media.name"]})` : "")
         font.pixelSize: 16
         leftPadding: 5
     }
