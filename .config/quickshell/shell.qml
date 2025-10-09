@@ -12,126 +12,121 @@ Scope {
         model: Quickshell.screens;
         PanelWindow {
             required property var modelData
-            property var hyprlandMonitor: Hyprland.monitorFor(root.screen)
 
             id: root
             screen: modelData
-            implicitHeight: 30
+            implicitHeight: 40
+            color: "transparent"
 
-            color: "#8F666666"
             anchors {
                 top: true
                 left: true
                 right: true
             }
-    
-            Row {
-                Repeater {
-                    model: Hyprland.workspaces.values.filter(e => e.monitor.id == root.hyprlandMonitor.id)
 
-                    Rectangle {
-                        required property var modelData
+            Rectangle {
+                color: "#FF121212"
+                anchors.fill: parent
+                // anchors.horizontalCenter: parent.horizontalCenter
+                // anchors.bottom: parent.bottom
+                // radius: 10
+                // width: parent.width - 20
+                // height: 30
+                Row {
+                    anchors.verticalCenter: parent.verticalCenter
+                    Repeater {
+                        property var hyprlandMonitor: Hyprland.monitorFor(root.screen)
+                        model: Hyprland.workspaces.values.filter(e => e.monitor.id == hyprlandMonitor.id)
 
-                        width: 30
-                        height: 30
-                        border.width: 2
-                        border.color: "black"
+                        Rectangle {
+                            required property var modelData
+                            property bool selected: modelData.id == Hyprland.focusedWorkspace.id
 
-                        color: modelData.id == Hyprland.focusedWorkspace.id ? "#FFFFFFFF" : "transparent"
+                            width: 30
+                            height: 30
+                            radius: 10
 
-                        Text {
-                            text: modelData.id
-                            font.pixelSize: 22
-                            anchors.centerIn: parent
+                            color: "transparent"
+
+                            Text {
+                                text: modelData.id
+                                font.pixelSize: 22
+                                anchors.centerIn: parent
+                                color: selected ? "purple" : "white"
+                            }
                         }
                     }
                 }
-            }
 
-            ClockWidget {
-                color: "#EEEEEE"
-                anchors.centerIn: parent
-                font.pixelSize: 22
-            }
+                ClockWidget {
+                    color: "#EEEEEE"
+                    anchors.centerIn: parent
+                    font.pixelSize: 22
+                }
 
-            Row {
-                id: rightSideRow
-                anchors.right: parent.right
-                layoutDirection: Qt.RightToLeft
-                    topPadding: 2.5
-                    spacing: 2.5
+                Row {
+                    height: parent.height
+                    id: rightSideRow
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    layoutDirection: Qt.RightToLeft
 
-                MouseArea {
-                    id: mixerRect
-                    property bool windowActive: false
-
-                    width: root.implicitHeight
-                    height: root.implicitHeight
-                    onClicked: windowActive = !windowActive
-                    Text {
+                    BarButton {
+                        id: mixerButton
                         text: ""
-                        color: "white"
-                        font.pixelSize: 20
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
 
-                    LazyLoader {
-                        active: Pipewire.ready && mixerRect.windowActive
+                        LazyLoader {
+                            active: Pipewire.ready && mixerButton.toggle
 
-                        PopupWindow {
-                            id: mixerWindow
-                            anchor.window: root
-                            anchor.rect.x: parentWindow.width
-                            anchor.rect.y: parentWindow.height + 5
-                            implicitWidth: 750
-                            implicitHeight: 750
-                            visible: true
+                            PopupWindow {
+                                id: mixerWindow
+                                anchor.window: root
+                                anchor.rect.x: parentWindow.width
+                                anchor.rect.y: parentWindow.height + 5
+                                implicitWidth: 750
+                                implicitHeight: 750
+                                visible: true
 
 
-                            PwNodeLinkTracker {
-                                id: nodeLinkTracker
-                                node: Pipewire.defaultAudioSink
-                            }
-
-                            PwObjectTracker {
-                                objects: Pipewire.defaultAudioSink
-                            }
-
-                            Column {
-                                id: mixerEntries
-                                property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
-
-                                PwObjectTracker {
-                                    objects: mixerEntries.pipenodes
-                                }
-
-                                MixerEntry {
+                                PwNodeLinkTracker {
+                                    id: nodeLinkTracker
                                     node: Pipewire.defaultAudioSink
                                 }
 
-                                Repeater {
-                                    model: mixerEntries.pipenodes
+                                PwObjectTracker {
+                                    objects: Pipewire.defaultAudioSink
+                                }
+
+                                Column {
+                                    id: mixerEntries
+                                    property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
+
+                                    PwObjectTracker {
+                                        objects: mixerEntries.pipenodes
+                                    }
 
                                     MixerEntry {
-                                        required property var modelData
-                                        node: modelData
+                                        node: Pipewire.defaultAudioSink
+                                    }
+
+                                    Repeater {
+                                        model: mixerEntries.pipenodes
+
+                                        MixerEntry {
+                                            required property var modelData
+                                            node: modelData
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-
-                Row {
                     Repeater {
                         model: SystemTray.items
 
-                        Image {
+                        BarButton {
                             required property var modelData
-                            width: 25
-                            height: 25
                             source: modelData.icon
 
                             MouseArea {
@@ -143,8 +138,14 @@ Scope {
                             QsMenuAnchor {
                                 id: sysTrayMenuAnchor
                                 menu: modelData.menu
-                                anchor.item: parent
-                                anchor.rect.y: sysTrayMouseArea.mouseY
+                                anchor {
+                                    item: parent
+                                    edges: Edges.Top | Edges.Right
+                                    gravity: Edges.Bottom | Edges.Left
+                                    margins {
+                                        top: 40
+                                    }
+                                }
                             }
                         }
                     }

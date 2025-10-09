@@ -21,11 +21,15 @@ Column {
             width: 25
             height: 25
 
-            text: {
-                if (node.audio.muted)
-                    return ""
-                else
-                    return ""
+            contentItem: Text {
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: {
+                    if (node.audio.muted)
+                        return ""
+                    else
+                        return ""
+                }
             }
 
             onClicked: {
