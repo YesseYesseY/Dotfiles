@@ -12,13 +12,24 @@ Rectangle {
     property string text: ""
     property string source: ""
 
+    signal clicked(mouse: MouseEvent)
+
+    onSourceChanged: {
+        // Literally only tested on spotify lol
+        if (source.includes("?path=")) {
+            var pathIndex = source.indexOf("?path=")
+            source = source.substr(pathIndex + 6) + "/" + source.substr(13, pathIndex - 13)
+        }
+    }
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         onEntered: parent.hovered = true
         onExited: parent.hovered = false
-        onClicked: {
+        onClicked: (mouse) => {
             parent.toggle = !parent.toggle
+            parent.clicked(mouse)
         }
     }
 

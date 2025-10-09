@@ -128,12 +128,7 @@ Scope {
                         BarButton {
                             required property var modelData
                             source: modelData.icon
-
-                            MouseArea {
-                                id: sysTrayMouseArea
-                                anchors.fill: parent
-                                onClicked: sysTrayMenuAnchor.open()
-                            }
+                            onClicked: sysTrayMenuAnchor.open()
 
                             QsMenuAnchor {
                                 id: sysTrayMenuAnchor
