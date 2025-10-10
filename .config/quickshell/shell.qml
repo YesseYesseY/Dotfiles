@@ -130,7 +130,7 @@ Scope {
                     BarButton {
                         text: {
                             if (hovered)
-                                return "100"
+                                return UPower.displayDevice.percentage * 100
 
                             UPower.onBattery ? "󰁹" : "󰂄"
                         }
