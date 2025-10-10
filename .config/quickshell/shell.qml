@@ -4,6 +4,7 @@ import Quickshell.Io
 import Quickshell.Hyprland
 import Quickshell.Services.Pipewire
 import Quickshell.Services.SystemTray
+import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Controls
 
@@ -32,29 +33,33 @@ Scope {
                 // radius: 10
                 // width: parent.width - 20
                 // height: 30
+
                 Row {
+                    height: parent.height
+                    id: leftSideRow
                     anchors.verticalCenter: parent.verticalCenter
+
                     Repeater {
                         property var hyprlandMonitor: Hyprland.monitorFor(root.screen)
                         model: Hyprland.workspaces.values.filter(e => e.monitor.id == hyprlandMonitor.id)
 
-                        Rectangle {
+                        BarButton {
                             required property var modelData
                             property bool selected: modelData.id == Hyprland.focusedWorkspace.id
 
-                            width: 30
-                            height: 30
-                            radius: 10
+                            text: modelData.id
+                            textColor: selected ? "purple" : "white"
 
-                            color: "transparent"
-
-                            Text {
-                                text: modelData.id
-                                font.pixelSize: 22
-                                anchors.centerIn: parent
-                                color: selected ? "purple" : "white"
-                            }
+                            onClicked: Hyprland.dispatch(`workspace ${modelData.id}`)
                         }
+                    }
+
+                    BarButton {
+                        text: "+"
+                        textColor: "white"
+
+                        // TODO Make this better
+                        onClicked: Hyprland.dispatch(`workspace ${Hyprland.workspaces.values[Hyprland.workspaces.values.length - 1].id + 1}`)
                     }
                 }
 
@@ -119,6 +124,18 @@ Scope {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    BarButton {
+                        text: {
+                            if (hovered)
+                                return "100"
+
+                            UPower.onBattery ? "󰁹" : "󰂄"
+                        }
+                        textSize: {
+                            hovered ? 20 : 25
                         }
                     }
 

@@ -10,6 +10,8 @@ Rectangle {
     property bool toggle: false
     property bool hovered: false
     property string text: ""
+    property int textSize: 25
+    property string textColor: "white"
     property string source: ""
 
     signal clicked(mouse: MouseEvent)
@@ -36,10 +38,10 @@ Rectangle {
     Text {
         visible: parent.source == ""
         text: parent.text
-        color: "white"
+        color: textColor
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        font.pixelSize: 25
+        font.pixelSize: parent.textSize
     }
 
     Image {
