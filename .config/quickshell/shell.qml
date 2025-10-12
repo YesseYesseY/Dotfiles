@@ -28,11 +28,6 @@ Scope {
             Rectangle {
                 color: "#FF121212"
                 anchors.fill: parent
-                // anchors.horizontalCenter: parent.horizontalCenter
-                // anchors.bottom: parent.bottom
-                // radius: 10
-                // width: parent.width - 20
-                // height: 30
 
                 Row {
                     height: parent.height
@@ -130,7 +125,7 @@ Scope {
                     BarButton {
                         text: {
                             if (hovered)
-                                return UPower.displayDevice.percentage * 100
+                                return (UPower.displayDevice.percentage * 100).toFixed()
 
                             UPower.onBattery ? "󰁹" : "󰂄"
                         }

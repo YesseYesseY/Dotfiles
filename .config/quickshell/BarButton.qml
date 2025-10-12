@@ -36,6 +36,7 @@ Rectangle {
     }
 
     Text {
+        id: textComp
         visible: parent.source == ""
         text: parent.text
         color: textColor
