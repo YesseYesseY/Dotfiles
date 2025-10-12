@@ -3,7 +3,7 @@ import Quickshell.Io
 import QtQuick
 
 Rectangle {
-    height: parent.height
+    height: base.height
     width: 35
     color: hovered ? "#44FFFFFF" : "transparent"
 

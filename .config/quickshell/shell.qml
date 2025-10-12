@@ -2,7 +2,6 @@
 import Quickshell
 import Quickshell.Io
 import Quickshell.Hyprland
-import Quickshell.Services.Pipewire
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 import QtQuick
@@ -28,40 +27,12 @@ Scope {
             Rectangle {
                 color: "#FF121212"
                 anchors.fill: parent
+                id: base
 
-                Row {
-                    height: parent.height
-                    id: leftSideRow
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    Repeater {
-                        property var hyprlandMonitor: Hyprland.monitorFor(root.screen)
-                        model: Hyprland.workspaces.values.filter(e => e.monitor.id == hyprlandMonitor.id)
-
-                        BarButton {
-                            required property var modelData
-                            property bool selected: modelData.id == Hyprland.focusedWorkspace.id
-
-                            text: modelData.id
-                            textColor: selected ? "purple" : "white"
-
-                            onClicked: Hyprland.dispatch(`workspace ${modelData.id}`)
-                        }
-                    }
-
-                    BarButton {
-                        text: "+"
-                        textColor: "white"
-
-                        // TODO Make this better
-                        onClicked: Hyprland.dispatch(`workspace ${Hyprland.workspaces.values[Hyprland.workspaces.values.length - 1].id + 1}`)
-                    }
+                WorkspacesWidget {
                 }
 
                 ClockWidget {
-                    color: "#EEEEEE"
-                    anchors.centerIn: parent
-                    font.pixelSize: 22
                 }
 
                 Row {
@@ -71,90 +42,13 @@ Scope {
                     anchors.verticalCenter: parent.verticalCenter
                     layoutDirection: Qt.RightToLeft
 
-                    BarButton {
-                        id: mixerButton
-                        text: ""
-
-                        LazyLoader {
-                            active: Pipewire.ready && mixerButton.toggle
-
-                            PopupWindow {
-                                id: mixerWindow
-                                anchor.window: root
-                                anchor.rect.x: parentWindow.width
-                                anchor.rect.y: parentWindow.height + 5
-                                implicitWidth: 750
-                                implicitHeight: 750
-                                visible: true
-
-
-                                PwNodeLinkTracker {
-                                    id: nodeLinkTracker
-                                    node: Pipewire.defaultAudioSink
-                                }
-
-                                PwObjectTracker {
-                                    objects: Pipewire.defaultAudioSink
-                                }
-
-                                Column {
-                                    id: mixerEntries
-                                    property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
-
-                                    PwObjectTracker {
-                                        objects: mixerEntries.pipenodes
-                                    }
-
-                                    MixerEntry {
-                                        node: Pipewire.defaultAudioSink
-                                    }
-
-                                    Repeater {
-                                        model: mixerEntries.pipenodes
-
-                                        MixerEntry {
-                                            required property var modelData
-                                            node: modelData
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    MixerWidget {
                     }
 
-                    BarButton {
-                        text: {
-                            if (hovered)
-                                return (UPower.displayDevice.percentage * 100).toFixed()
-
-                            UPower.onBattery ? "󰁹" : "󰂄"
-                        }
-                        textSize: {
-                            hovered ? 20 : 25
-                        }
+                    BatteryWidget {
                     }
 
-                    Repeater {
-                        model: SystemTray.items
-
-                        BarButton {
-                            required property var modelData
-                            source: modelData.icon
-                            onClicked: sysTrayMenuAnchor.open()
-
-                            QsMenuAnchor {
-                                id: sysTrayMenuAnchor
-                                menu: modelData.menu
-                                anchor {
-                                    item: parent
-                                    edges: Edges.Top | Edges.Right
-                                    gravity: Edges.Bottom | Edges.Left
-                                    margins {
-                                        top: 40
-                                    }
-                                }
-                            }
-                        }
+                    SystemTrayWidget {
                     }
                 }
             }
