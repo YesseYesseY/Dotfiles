@@ -26,7 +26,9 @@ Scope {
 
             Rectangle {
                 color: "#FF121212"
-                anchors.fill: parent
+                width: parent.width
+                height: 40
+                anchors.top: parent.top
                 id: base
 
                 WorkspacesWidget {

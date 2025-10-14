@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pipewire
 import QtQuick
+import QtQuick.Controls
 
 BarButton {
     id: mixerButton
@@ -12,13 +13,16 @@ BarButton {
 
         PopupWindow {
             id: mixerWindow
-            anchor.window: root
-            anchor.rect.x: parentWindow.width
-            anchor.rect.y: parentWindow.height + 5
             implicitWidth: 750
-            implicitHeight: 750
+            implicitHeight: 500
             visible: true
-
+            color: "transparent"
+            anchor {
+                item: mixerButton
+                rect {
+                    y: parentWindow.height + 5
+                }
+            }
 
             PwNodeLinkTracker {
                 id: nodeLinkTracker
@@ -29,26 +33,35 @@ BarButton {
                 objects: Pipewire.defaultAudioSink
             }
 
-            Column {
-                id: mixerEntries
-                property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
+            Rectangle {
+                anchors.fill: parent
+                radius: 10
+                color: "#FF121212"
 
-                PwObjectTracker {
-                    objects: mixerEntries.pipenodes
-                }
+                Column {
+                    id: mixerEntries
+                    topPadding: 10
+                    leftPadding: 10
 
-                MixerEntry {
-                    node: Pipewire.defaultAudioSink
-                }
+                    property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
 
-                Repeater {
-                    model: mixerEntries.pipenodes
+                    PwObjectTracker {
+                        objects: mixerEntries.pipenodes
+                    }
 
                     MixerEntry {
-                        required property var modelData
-                        node: modelData
+                        node: Pipewire.defaultAudioSink
                     }
-                }
+
+                    Repeater {
+                        model: mixerEntries.pipenodes
+
+                        MixerEntry {
+                            required property var modelData
+                            node: modelData
+                        }
+                    }
+                }    
             }
         }
     }

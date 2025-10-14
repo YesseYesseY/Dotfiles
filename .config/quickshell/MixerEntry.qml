@@ -11,6 +11,7 @@ Column {
                 (node.properties.hasOwnProperty("media.name") ? ` (${node.properties["media.name"]})` : "")
         font.pixelSize: 16
         leftPadding: 5
+        color: "white"
     }
     Row {
         spacing: 5
@@ -42,6 +43,5 @@ Column {
             onMoved: node.audio.volume = value
             anchors.verticalCenter: muteButton.verticalCenter
         }
-
     }
 }
