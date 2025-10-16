@@ -6,7 +6,24 @@ import QtQuick.Controls
 
 BarButton {
     id: mixerButton
-    text: ""
+    text: {
+        const volume = Pipewire.defaultAudioSink.audio.volume * 100
+        
+        if (Pipewire.defaultAudioSink.audio.muted) return "\udb81\udd81"
+
+        if (volume <= 33) return "\udb81\udd7f"
+        else if (volume >= 67) return "\udb81\udd7e"
+        else return "\udb81\udd80"
+    }
+
+    PwNodeLinkTracker {
+        id: nodeLinkTracker
+        node: Pipewire.defaultAudioSink
+    }
+
+    PwObjectTracker {
+        objects: Pipewire.defaultAudioSink
+    }
 
     LazyLoader {
         active: Pipewire.ready && mixerButton.toggle
@@ -22,15 +39,6 @@ BarButton {
                 rect {
                     y: parentWindow.height + 5
                 }
-            }
-
-            PwNodeLinkTracker {
-                id: nodeLinkTracker
-                node: Pipewire.defaultAudioSink
-            }
-
-            PwObjectTracker {
-                objects: Pipewire.defaultAudioSink
             }
 
             Rectangle {
