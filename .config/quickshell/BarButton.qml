@@ -42,9 +42,7 @@ Rectangle {
             parent.hovered = false
             if (tooltipItem !== null) {
                 root.bar.tooltip.lastHoveredItem = root.bar.tooltip.hoveredItem
-                root.bar.tooltip.lastContentItem = root.bar.tooltip.contentItem
                 root.bar.tooltip.hoveredItem = null
-                root.bar.tooltip.contentItem = null
             }
         }
         onClicked: (mouse) => {

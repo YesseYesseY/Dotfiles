@@ -25,54 +25,26 @@ BarButton {
         objects: Pipewire.defaultAudioSink
     }
 
-    LazyLoader {
-        active: Pipewire.ready && mixerButton.toggle
+    tooltipItem: Column {
+            id: mixerEntries
 
-        PopupWindow {
-            id: mixerWindow
-            implicitWidth: 750
-            implicitHeight: 500
-            visible: true
-            color: "transparent"
-            anchor {
-                item: mixerButton
-                rect {
-                    y: parentWindow.height + 5
+            property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
+
+            PwObjectTracker {
+                objects: mixerEntries.pipenodes
+            }
+
+            MixerEntry {
+                node: Pipewire.defaultAudioSink
+            }
+
+            Repeater {
+                model: mixerEntries.pipenodes
+
+                MixerEntry {
+                    required property var modelData
+                    node: modelData
                 }
             }
-
-            Rectangle {
-                anchors.fill: parent
-                radius: 10
-                color: "#FF121212"
-
-                Behavior on height { NumberAnimation { duration: 200 } }
-
-                Column {
-                    id: mixerEntries
-                    topPadding: 10
-                    leftPadding: 10
-
-                    property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
-
-                    PwObjectTracker {
-                        objects: mixerEntries.pipenodes
-                    }
-
-                    MixerEntry {
-                        node: Pipewire.defaultAudioSink
-                    }
-
-                    Repeater {
-                        model: mixerEntries.pipenodes
-
-                        MixerEntry {
-                            required property var modelData
-                            node: modelData
-                        }
-                    }
-                }    
-            }
-        }
-    }
+        }    
 }

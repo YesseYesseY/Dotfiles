@@ -10,6 +10,9 @@ Scope {
     property Item lastContentItem: null
 
     onContentItemChanged: {
+        if (lastContentItem !== null) {
+            lastContentItem.parent = null
+        }
         if (contentItem !== null) {
             contentItem.parent = tooltipRect
             contentItem.anchors.centerIn = tooltipRect
@@ -52,30 +55,32 @@ Scope {
             id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
-        }
 
-        Rectangle {
-            id: tooltipRect
-            anchors.fill: parent
-            color: "#FF121212"
-            opacity: {
-                if (hoveredItem === null) {
-                    if (lastHoveredItem !== null && mouseArea.containsMouse) return 1
-                    return 0
+            Rectangle {
+                id: tooltipRect
+                anchors.fill: parent
+                color: "#FF121212"
+                opacity: {
+                    if (hoveredItem === null) {
+                        if (lastHoveredItem !== null && mouseArea.containsMouse) return 1
+                        return 0
+                    }
+                    return 1
                 }
-                return 1
-            }
 
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 100
-                    onRunningChanged: {
-                        if (!running && tooltipRect.opacity === 0) {
-                            lastHoveredItem = null
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 100
+                        onRunningChanged: {
+                            if (!running && tooltipRect.opacity === 0) {
+                                lastHoveredItem = null
+                                lastContentItem = contentItem
+                                contentItem = null
+                            }
                         }
                     }
                 }
-            }
+            } 
         }
     }
 }
