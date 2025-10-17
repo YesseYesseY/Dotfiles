@@ -20,7 +20,7 @@ Row {
             text: modelData.id
             textColor: selected ? "purple" : "white"
 
-            onClicked: Hyprland.dispatch(`workspace ${modelData.id}`)
+            onClicked: if (!selected) Hyprland.dispatch(`workspace ${modelData.id}`)
         }
     }
 

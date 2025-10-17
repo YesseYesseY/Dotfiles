@@ -20,6 +20,7 @@ Scope {
     }
 
     PopupWindow {
+        id: win
         anchor {
             window: root.bar
             rect {
@@ -34,7 +35,7 @@ Scope {
                     }
                     return 0
                 }
-                y: 40
+                y: 50
             }
         }
 
@@ -48,7 +49,7 @@ Scope {
             return Math.max(10, contentHeight) + 10
         }
 
-        visible: true
+        visible: tooltipRect.opacity == 0 ? false : true
         color: "transparent"
 
         MouseArea {
@@ -60,6 +61,11 @@ Scope {
                 id: tooltipRect
                 anchors.fill: parent
                 color: "#FF121212"
+                radius: 10
+                border {
+                    width: 2
+                    color: "cyan"
+                }
                 opacity: {
                     if (hoveredItem === null) {
                         if (lastHoveredItem !== null && mouseArea.containsMouse) return 1
