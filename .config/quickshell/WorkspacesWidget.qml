@@ -3,18 +3,20 @@ import Quickshell
 import Quickshell.Hyprland
 
 Row {
+    id: root
+    required property var bar
     height: parent.height
-    id: leftSideRow
     anchors.verticalCenter: parent.verticalCenter
 
     Repeater {
-        property var hyprlandMonitor: Hyprland.monitorFor(root.screen)
+        property var hyprlandMonitor: Hyprland.monitorFor(root.bar.screen)
         model: Hyprland.workspaces.values.filter(e => e.monitor.id == hyprlandMonitor.id)
 
         BarButton {
             required property var modelData
             property bool selected: modelData.id == Hyprland.focusedWorkspace.id
 
+            bar: root.bar
             text: modelData.id
             textColor: selected ? "purple" : "white"
 
@@ -25,6 +27,7 @@ Row {
     BarButton {
         text: "+"
         textColor: "white"
+        bar: root.bar
 
         onClicked: Hyprland.dispatch(`workspace ${Hyprland.workspaces.values[Hyprland.workspaces.values.length - 1].id + 1}`)
     }

@@ -6,12 +6,15 @@ import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Scope {
     Variants {
         model: Quickshell.screens;
         PanelWindow {
             required property var modelData
+
+            property var tooltip: tooltip
 
             id: root
             screen: modelData
@@ -24,6 +27,11 @@ Scope {
                 right: true
             }
 
+            Tooltip {
+                id: tooltip
+                bar: root
+            }
+
             Rectangle {
                 color: "#FF121212"
                 width: parent.width
@@ -32,9 +40,11 @@ Scope {
                 id: base
 
                 WorkspacesWidget {
+                    bar: root
                 }
 
                 ClockWidget {
+                    bar: root
                 }
 
                 Row {
@@ -45,12 +55,15 @@ Scope {
                     layoutDirection: Qt.RightToLeft
 
                     MixerWidget {
+                        bar: root
                     }
 
                     BatteryWidget {
+                        bar: root
                     }
 
                     SystemTrayWidget {
+                        bar: root
                     }
                 }
             }

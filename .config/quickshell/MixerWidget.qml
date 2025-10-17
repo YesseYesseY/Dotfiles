@@ -46,6 +46,8 @@ BarButton {
                 radius: 10
                 color: "#FF121212"
 
+                Behavior on height { NumberAnimation { duration: 200 } }
+
                 Column {
                     id: mixerEntries
                     topPadding: 10

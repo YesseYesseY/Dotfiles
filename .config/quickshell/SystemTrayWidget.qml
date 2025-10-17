@@ -3,12 +3,15 @@ import QtQuick
 import Quickshell.Services.SystemTray
 
 Repeater {
+    id: root
+    required property var bar
     model: SystemTray.items
 
     BarButton {
         required property var modelData
         source: modelData.icon
         onClicked: sysTrayMenuAnchor.open()
+        bar: root.bar
 
         QsMenuAnchor {
             id: sysTrayMenuAnchor

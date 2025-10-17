@@ -3,9 +3,12 @@ import Quickshell.Io
 import QtQuick
 
 Rectangle {
+    id: root
     height: base.height
-    width: 35
+    width: Math.max(35, textComp.width);
     color: hovered ? "#44FFFFFF" : "transparent"
+
+    required property var bar
 
     property bool toggle: false
     property bool hovered: false
@@ -13,6 +16,7 @@ Rectangle {
     property int textSize: 25
     property string textColor: "white"
     property string source: ""
+    property Item tooltipItem: null
 
     signal clicked(mouse: MouseEvent)
 
@@ -27,8 +31,22 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: parent.hovered = true
-        onExited: parent.hovered = false
+        onEntered: {
+            parent.hovered = true
+            if (tooltipItem !== null) {
+                root.bar.tooltip.hoveredItem = root
+                root.bar.tooltip.contentItem = root.tooltipItem
+            }
+        }
+        onExited: {
+            parent.hovered = false
+            if (tooltipItem !== null) {
+                root.bar.tooltip.lastHoveredItem = root.bar.tooltip.hoveredItem
+                root.bar.tooltip.lastContentItem = root.bar.tooltip.contentItem
+                root.bar.tooltip.hoveredItem = null
+                root.bar.tooltip.contentItem = null
+            }
+        }
         onClicked: (mouse) => {
             parent.toggle = !parent.toggle
             parent.clicked(mouse)

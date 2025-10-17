@@ -1,8 +1,19 @@
 import QtQuick
+import Quickshell
+import QtQuick.Controls
 
-Text {
+BarButton {
+    id: root
     text: Time.time
-    color: "#EEEEEE"
     anchors.centerIn: parent
-    font.pixelSize: 22
+    tooltipItem: Text {
+        font.pixelSize: 25
+        text: Time.date
+        color: "white"
+    }
+
+    LazyLoader {
+        active: true
+
+    }
 }
