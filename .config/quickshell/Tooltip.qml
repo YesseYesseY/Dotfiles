@@ -41,12 +41,12 @@ Scope {
 
         implicitWidth: {
             let contentWidth = root.contentItem !== null ? root.contentItem.width : root.lastContentItem !== null ? root.lastContentItem.width : 0
-            return Math.max(10, contentWidth) + 10
+            return Math.max(10, contentWidth)
         }
 
         implicitHeight: {
             let contentHeight = root.contentItem !== null ? root.contentItem.height : root.lastContentItem !== null ? root.lastContentItem.height : 0
-            return Math.max(10, contentHeight) + 10
+            return Math.max(10, contentHeight)
         }
 
         visible: tooltipRect.opacity == 0 ? false : true

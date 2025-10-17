@@ -7,6 +7,7 @@ BarButton {
     text: Time.time
     anchors.centerIn: parent
     tooltipItem: Column {
+        topPadding: 10
         Text {
             id: topText
             font.pixelSize: 45
@@ -35,18 +36,45 @@ BarButton {
 
                 Rectangle {
                     required property var modelData
+                    required property int index
+                    property bool isCurrentDate: modelData.getDate() === Time.currentDate.getDate();
+                    property bool isCurrentMonth: modelData.getMonth() === Time.currentDate.getMonth();
                     width: 60
                     height: 60
+                    bottomLeftRadius: index === 28 ? 10 : 0
+                    bottomRightRadius: index === 34 ? 10 : 0
                     color: "transparent"
                     border {
-                        width: 1
-                        color: "white"
+                        width: 2
+                        color: "cyan"
+                    }
+
+                    Canvas {
+                        anchors.fill: parent
+                        visible: isCurrentMonth && isCurrentDate
+                        onPaint: {
+                            if (visible) {
+                                const lineCount = 7;
+                                const ctx = getContext("2d");
+                                ctx.strokeStyle = "cyan"
+
+                                for (let i = 1; i <= lineCount; i++) {
+                                    const off = (width / lineCount) * i;
+                                    ctx.beginPath();
+                                    ctx.moveTo(off, 0);
+                                    ctx.lineTo(0, off)
+                                    ctx.moveTo(off, height);
+                                    ctx.lineTo(height, off);
+                                    ctx.stroke();
+                                }
+                            }
+                        }
                     }
 
                     Text {
                         anchors.centerIn: parent
                         text: modelData.getDate()
-                        color: modelData.getMonth() == Time.currentDate.getMonth() ? "white" : "gray"
+                        color: !isCurrentMonth ? "gray" : "white"
                         font.pixelSize: 25
                     }
                 }

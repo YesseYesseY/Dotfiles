@@ -18,7 +18,7 @@ Row {
 
             bar: root.bar
             text: modelData.id
-            textColor: selected ? "purple" : "white"
+            textColor: selected ? "cyan" : "white"
 
             onClicked: if (!selected) Hyprland.dispatch(`workspace ${modelData.id}`)
         }

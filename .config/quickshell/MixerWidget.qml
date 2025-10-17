@@ -27,6 +27,7 @@ BarButton {
 
     tooltipItem: Column {
             id: mixerEntries
+            padding: 10
 
             property var pipenodes: nodeLinkTracker.linkGroups.map(e => e.source) 
 
