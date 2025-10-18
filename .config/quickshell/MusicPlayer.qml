@@ -5,6 +5,7 @@ import Quickshell.Services.Mpris
 BarButton {
     id: root
     text: "\udb81\udf5a"
+    visible: Mpris.players.values.length > 0
     tooltipItem: Column {
         id: toolRoot
         width: 400
@@ -22,6 +23,11 @@ BarButton {
                 text: "\uf104"
                 textSize: 20
                 height: 35
+                onClicked: {
+                    if (root.tooltipItem.mprisIndex == 0) root.tooltipItem.mprisIndex = Mpris.players.values.length - 1;
+                    else root.tooltipItem.mprisIndex--;
+                    posTimer.restart();
+                }
             }
 
             Text {
@@ -38,6 +44,7 @@ BarButton {
                 onClicked: {
                     if (root.tooltipItem.mprisIndex == Mpris.players.values.length - 1) root.tooltipItem.mprisIndex = 0;
                     else root.tooltipItem.mprisIndex++;
+                    posTimer.restart();
                 }
             }
         }
@@ -47,22 +54,26 @@ BarButton {
             source: parent.mprisCurrent.trackArtUrl
             width: 250
             height: 250
+            fillMode: Image.PreserveAspectFit
         }
 
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
+                width: 350
+                elide: Text.ElideRight
                 text: root.tooltipItem.mprisCurrent.trackTitle
                 color: "white"
-                font.pixelSize: 15
+                font.pixelSize: 17
+                // NumberAnimation on leftPadding { from: 0; to: 100; duration: 2000; }
             }
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.tooltipItem.mprisCurrent.trackArtist
                 color: "white"
-                font.pixelSize: 13
+                font.pixelSize: 15
             }
         }
 
@@ -70,10 +81,10 @@ BarButton {
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                width: 50
                 text: Time.stringifySeconds(posTimer.lastUpdate);
                 color: "white"
                 font.pixelSize: 15
+                rightPadding: 5
             }
 
             Slider {
@@ -89,6 +100,7 @@ BarButton {
                     running: root.tooltipItem.mprisCurrent.isPlaying
                     interval: 1000
                     repeat: true
+                    triggeredOnStart: true
                     onTriggered: {
                         lastUpdate = root.tooltipItem.mprisCurrent.position 
                         parent.value = lastUpdate / root.tooltipItem.mprisCurrent.length
@@ -97,9 +109,8 @@ BarButton {
             }
 
             Text {
-                leftPadding: 15
+                leftPadding: 5
                 anchors.verticalCenter: parent.verticalCenter
-                width: 50
                 text: Time.stringifySeconds(toolRoot.mprisCurrent.length);
                 color: "white"
                 font.pixelSize: 15
@@ -113,6 +124,7 @@ BarButton {
                 width: 40
                 height: 40
                 radius: 50
+                visible: toolRoot.mprisCurrent.loopSupported
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -144,6 +156,7 @@ BarButton {
                 width: 40
                 height: 40
                 radius: 50
+                visible: toolRoot.mprisCurrent.canGoPrevious
                 MouseArea {
                     anchors.fill: parent
                     onClicked: toolRoot.mprisCurrent.previous();
@@ -160,6 +173,7 @@ BarButton {
                 width: 40
                 height: 40
                 radius: 50
+                visible: toolRoot.mprisCurrent.canTogglePlaying
                 MouseArea {
                     anchors.fill: parent
                     onClicked: toolRoot.mprisCurrent.togglePlaying();
@@ -176,6 +190,7 @@ BarButton {
                 width: 40
                 height: 40
                 radius: 50
+                visible: toolRoot.mprisCurrent.canGoNext
                 MouseArea {
                     anchors.fill: parent
                     onClicked: toolRoot.mprisCurrent.next();
@@ -192,6 +207,7 @@ BarButton {
                 width: 40
                 height: 40
                 radius: 50
+                visible: toolRoot.mprisCurrent.shuffleSupported
                 MouseArea {
                     anchors.fill: parent
                     onClicked: toolRoot.mprisCurrent.shuffle = !toolRoot.mprisCurrent.shuffle;

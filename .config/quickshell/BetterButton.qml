@@ -5,6 +5,7 @@ import QtQuick
 Rectangle {
     id: root
     width: Math.max(35, textComp.width);
+    height: Math.max(35, textComp.height);
     color: !hoverEffect ? "transparent" : hovered ? "#44FFFFFF" : "transparent"
 
     property bool toggle: false

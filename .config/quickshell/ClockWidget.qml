@@ -81,9 +81,4 @@ BarButton {
             }
         }
     }
-
-    LazyLoader {
-        active: true
-
-    }
 }

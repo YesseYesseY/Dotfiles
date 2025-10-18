@@ -47,7 +47,12 @@ Singleton {
 
     function stringifySeconds(secs) {
         let min = Math.floor(secs / 60);
-        return `${min}:${Math.floor(secs % 60).toString().padStart(2, "0")}`;
+        let hours = Math.floor(min / 60);
+        let ret = "";
+        if (hours > 0) ret += `${hours}:`;
+        hours > 0 ? ret += `${(min % 60).toString().padStart(2, "0")}:` : ret += `${min}:`;
+        ret += `${Math.floor(secs % 60).toString().padStart(2, "0")}`;
+        return ret;
     }
 
     SystemClock {
