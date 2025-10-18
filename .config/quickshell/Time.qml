@@ -45,6 +45,11 @@ Singleton {
         return fake
     }
 
+    function stringifySeconds(secs) {
+        let min = Math.floor(secs / 60);
+        return `${min}:${Math.floor(secs % 60).toString().padStart(2, "0")}`;
+    }
+
     SystemClock {
         id: clock
         precision: SystemClock.Minutes

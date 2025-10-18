@@ -53,8 +53,13 @@ Scope {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     layoutDirection: Qt.RightToLeft
+                    spacing: 5 // FIXME Temp "fix" while tooltip glitches out on fast switches
 
                     MixerWidget {
+                        bar: root
+                    }
+
+                    MusicPlayer {
                         bar: root
                     }
 
