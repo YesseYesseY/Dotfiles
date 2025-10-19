@@ -27,6 +27,10 @@ vim.keymap.set('n', '<leader>se', '<cmd>Explore<CR>')
 vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>')
 vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>')
 
+-- vim.keymap.set('i', '"', '""<esc>i')
+-- vim.keymap.set('i', '(', '()<esc>i')
+-- vim.keymap.set('i', '{', '{}<esc>i')
+
 vim.cmd.colorscheme 'tokyonight-night'
 
 vim.api.nvim_create_autocmd('LspAttach', {

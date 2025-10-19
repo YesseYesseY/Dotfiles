@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Hyprland
 import QtQuick
 
 Scope {
@@ -24,29 +25,21 @@ Scope {
         anchor {
             window: root.bar
             rect {
-                x: {
-                    if (hoveredItem !== null) {
-                        let itempos = hoveredItem.mapToItem(null, hoveredItem.width / 2, 0) // wtf
-                        return itempos.x - (width / 2)
-                    }
-                    else if (lastHoveredItem !== null) {
-                        let itempos = lastHoveredItem.mapToItem(null, lastHoveredItem.width / 2, 0) // wtf
-                        return itempos.x - (width / 2)
-                    }
-                    return 0
-                }
+                x: 10
                 y: 50
             }
         }
 
         implicitWidth: {
-            let contentWidth = root.contentItem !== null ? root.contentItem.width : root.lastContentItem !== null ? root.lastContentItem.width : 0
-            return Math.max(10, contentWidth)
+            return root.bar.width - 20;
+            // let contentWidth = root.contentItem !== null ? root.contentItem.width : root.lastContentItem !== null ? root.lastContentItem.width : 0
+            // return Math.max(10, contentWidth)
         }
 
         implicitHeight: {
-            let contentHeight = root.contentItem !== null ? root.contentItem.height : root.lastContentItem !== null ? root.lastContentItem.height : 0
-            return Math.max(10, contentHeight)
+            return root.bar.modelData.height - root.bar.height - 20;
+            // let contentHeight = root.contentItem !== null ? root.contentItem.height : root.lastContentItem !== null ? root.lastContentItem.height : 0
+            // return Math.max(10, contentHeight)
         }
 
         visible: tooltipRect.opacity == 0 ? false : true
@@ -54,12 +47,25 @@ Scope {
 
         MouseArea {
             id: mouseArea
-            anchors.fill: parent
             hoverEnabled: true
+            width: {
+                let contentWidth = root.contentItem !== null ? root.contentItem.width : root.lastContentItem !== null ? root.lastContentItem.width : 0;
+                return Math.max(10, contentWidth);
+            }
+            height: {
+                let contentHeight = root.contentItem !== null ? root.contentItem.height : root.lastContentItem !== null ? root.lastContentItem.height : 0;
+                return Math.max(10, contentHeight);
+            }
+            x: {
+                let itempos = hoveredItem.mapToItem(null, hoveredItem.width / 2, 0); // wtf
+                return MathFuncs.clamp(0, itempos.x - (width / 2), root.bar.width - width - 20);
+            }
+            Behavior on x { NumberAnimation { duration: 100; } }
 
             Rectangle {
                 id: tooltipRect
                 anchors.fill: parent
+                // anchors.centerIn: parent
                 color: "#FF121212"
                 radius: 10
                 border {
