@@ -67,6 +67,10 @@ Scope {
                         bar: root
                     }
 
+                    MusicPlayer {
+                        bar: root
+                    }
+
                     SystemTrayWidget {
                         bar: root
                     }
