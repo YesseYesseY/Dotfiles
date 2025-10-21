@@ -57,8 +57,15 @@ Scope {
                 return Math.max(10, contentHeight);
             }
             x: {
-                let itempos = hoveredItem.mapToItem(null, hoveredItem.width / 2, 0); // wtf
-                return MathFuncs.clamp(0, itempos.x - (width / 2), root.bar.width - width - 20);
+                if (hoveredItem === null) {
+                    if (lastHoveredItem === null) return 0;
+
+                    let itempos = lastHoveredItem.mapToItem(null, lastHoveredItem.width / 2, 0); // wtf
+                    return MathFuncs.clamp(0, itempos.x - (width / 2), root.bar.width - width - 20);
+                } else {
+                    let itempos = hoveredItem.mapToItem(null, hoveredItem.width / 2, 0); // wtf
+                    return MathFuncs.clamp(0, itempos.x - (width / 2), root.bar.width - width - 20);
+                }
             }
             Behavior on x { NumberAnimation { duration: 100; } }
 
@@ -85,7 +92,6 @@ Scope {
                         duration: 100
                         onRunningChanged: {
                             if (!running && tooltipRect.opacity === 0) {
-                                lastHoveredItem = null
                                 lastContentItem = contentItem
                                 contentItem = null
                             }

@@ -67,7 +67,7 @@ Scope {
                         bar: root
                     }
 
-                    MusicPlayer {
+                    MemoryWidget {
                         bar: root
                     }
 

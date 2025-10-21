@@ -22,11 +22,12 @@ vim.pack.add{
 }
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('i', '<c-space>', function() vim.lsp.completion.get() end)
 vim.keymap.set('n', '<leader>se', '<cmd>Explore<CR>')
 vim.keymap.set('n', '<leader>sf', '<cmd>Telescope find_files<cr>')
 vim.keymap.set('n', '<leader>sg', '<cmd>Telescope live_grep<cr>')
+vim.keymap.set('n', '""', 'viwo<Esc>i"<Esc>ea"<Esc>')
 
+vim.keymap.set('i', '<c-space>', function() vim.lsp.completion.get() end)
 -- vim.keymap.set('i', '"', '""<esc>i')
 -- vim.keymap.set('i', '(', '()<esc>i')
 -- vim.keymap.set('i', '{', '{}<esc>i')
