@@ -17,11 +17,15 @@ Repeater {
             id: sysTrayMenuAnchor
             menu: modelData.menu
             anchor {
-                item: parent
+                window: bar
                 edges: Edges.Top | Edges.Right
                 gravity: Edges.Bottom | Edges.Left
-                margins {
-                    top: 40
+                rect {
+                    x: {
+                        let itempos = parent.mapToItem(null, parent.width / 2, 0); // wtf
+                        return itempos.x;
+                    }
+                    y: 40
                 }
             }
         }
