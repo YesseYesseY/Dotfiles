@@ -9,5 +9,5 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
-export PATH=~/msvc/bin/x64:$PATH
+export PATH=~/msvc/bin/x64:~/Apps:$PATH
 export MANPAGER='nvim +Man! -c ":set nu rnu"'

@@ -11,6 +11,7 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.clipboard = 'unnamedplus'
+vim.o.signcolumn = 'yes'
 
 vim.g.netrw_bufsettings = 'noma nomod nowrap ro nobl nu rnu'
 
@@ -19,6 +20,12 @@ vim.pack.add{
   { src = 'https://github.com/folke/tokyonight.nvim' },
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/nvim-telescope/telescope.nvim' },
+}
+
+require("telescope").setup {
+    defaults = {
+        file_ignore_patterns = { "node_modules", "bin", "obj" }
+    }
 }
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -49,3 +56,4 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
 vim.lsp.enable('pylsp')
+vim.lsp.enable('omnisharp')
