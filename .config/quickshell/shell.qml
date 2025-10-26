@@ -15,6 +15,7 @@ Scope {
             required property var modelData
 
             property var tooltip: tooltip
+            property var baseRect: base
 
             id: root
             screen: modelData
@@ -41,8 +42,12 @@ Scope {
                 id: base
 
                 border {
-                    color: "#00FFFF"
+                    color: Hyprland.monitorFor(root.modelData).focused ? "#00FFFF" : "#595959"
                     width: 2
+
+                    Behavior on color {
+                        ColorAnimation { duration: 200 }
+                    }
                 }
 
                 bottomLeftRadius: 10
@@ -56,25 +61,24 @@ Scope {
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
-                // Rectangle {
-                //     width: parent.width
-                //     height: 2
-                //     color: "#00FFFF"
-                //     anchors.bottom: parent.bottom
-                // }
-
                 WorkspacesWidget {
                     bar: root
                     anchors.centerIn: parent
                 }
 
                 Row {
+                    spacing: 5
                     QuickMenu {
                         bar: root
                         barRect: base
+                        textLeftPadding: 5
                     }
 
                     ClockWidget {
+                        bar: root
+                    }
+
+                    SystemTrayWidget {
                         bar: root
                     }
                 }
@@ -87,19 +91,9 @@ Scope {
                     layoutDirection: Qt.RightToLeft
                     spacing: 5
 
-                    BarButton {
-                        bar: root
-                        text: "\udb81\udd7e"
-                        onClicked: pavu.running = true
-
-                        Process {
-                            id: pavu
-                            command: ["pavucontrol"]
-                        }
-                    }
-
                     MusicPlayer {
                         bar: root
+                        textRightPadding: 5
                     }
 
                     BatteryWidget {
@@ -107,10 +101,6 @@ Scope {
                     }
 
                     MemoryWidget {
-                        bar: root
-                    }
-
-                    SystemTrayWidget {
                         bar: root
                     }
                 }

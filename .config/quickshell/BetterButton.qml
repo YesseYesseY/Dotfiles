@@ -11,8 +11,14 @@ Rectangle {
     property bool toggle: false
     property bool hovered: false
     property bool hoverEffect: true
+
     property string text: ""
     property int textSize: 25
+    property int textLeftPadding: 0
+    property int textRightPadding: 0
+    property int textTopPadding: 0
+    property int textBottomPadding: 0
+
     property string textColor: "white"
     property string source: ""
 
@@ -53,6 +59,10 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pixelSize: parent.textSize
+        leftPadding: parent.textLeftPadding
+        rightPadding: parent.textRightPadding
+        topPadding: parent.textTopPadding
+        bottomPadding: parent.textBottomPadding
     }
 
     Image {
