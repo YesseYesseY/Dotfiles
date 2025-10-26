@@ -34,17 +34,49 @@ Scope {
 
             Rectangle {
                 color: "#FF121212"
-                width: parent.width
+                width: parent.width - 20
                 height: 40
                 anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
                 id: base
+
+                border {
+                    color: "#00FFFF"
+                    width: 2
+                }
+
+                bottomLeftRadius: 10
+                bottomRightRadius: 10
+
+                Rectangle {
+                    width: parent.width - 4
+                    height: 2
+                    color: "#FF121212"
+                    anchors.top: parent.top
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                // Rectangle {
+                //     width: parent.width
+                //     height: 2
+                //     color: "#00FFFF"
+                //     anchors.bottom: parent.bottom
+                // }
 
                 WorkspacesWidget {
                     bar: root
+                    anchors.centerIn: parent
                 }
 
-                ClockWidget {
-                    bar: root
+                Row {
+                    QuickMenu {
+                        bar: root
+                        barRect: base
+                    }
+
+                    ClockWidget {
+                        bar: root
+                    }
                 }
 
                 Row {
@@ -53,10 +85,17 @@ Scope {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     layoutDirection: Qt.RightToLeft
-                    spacing: 5 // FIXME Temp "fix" while tooltip glitches out on fast switches
+                    spacing: 5
 
-                    MixerWidget {
+                    BarButton {
                         bar: root
+                        text: "\udb81\udd7e"
+                        onClicked: pavu.running = true
+
+                        Process {
+                            id: pavu
+                            command: ["pavucontrol"]
+                        }
                     }
 
                     MusicPlayer {
