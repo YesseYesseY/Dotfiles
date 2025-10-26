@@ -2,7 +2,7 @@ import QtQuick
 
 BetterButton {
     id: root
-    height: bar.height
+    height: bar.height - 2
     
     required property var bar
     property Item tooltipItem: null

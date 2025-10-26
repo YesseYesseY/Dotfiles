@@ -68,6 +68,7 @@ Scope {
 
                 Row {
                     spacing: 5
+
                     QuickMenu {
                         bar: root
                         barRect: base
@@ -91,16 +92,12 @@ Scope {
                     layoutDirection: Qt.RightToLeft
                     spacing: 5
 
-                    MusicPlayer {
+                    MemoryWidget {
                         bar: root
                         textRightPadding: 5
                     }
 
                     BatteryWidget {
-                        bar: root
-                    }
-
-                    MemoryWidget {
                         bar: root
                     }
                 }
