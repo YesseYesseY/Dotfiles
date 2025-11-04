@@ -17,12 +17,11 @@ PanelWindow {
     color: "#000000"
 
     Row {
-        anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         rightPadding: 5
 
         SimpleText {
-            text: `\udb80\udc79${(UPower.displayDevice.percentage * 100)}%`
+            text: `\udb80\udc79${(UPower.displayDevice.percentage * 100).toFixed()}%`
         }
 
         SimpleSeperator { }

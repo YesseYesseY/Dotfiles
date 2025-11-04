@@ -58,3 +58,12 @@ vim.lsp.enable('ts_ls')
 vim.lsp.enable('pylsp')
 vim.lsp.enable('omnisharp')
 vim.lsp.enable('zls')
+
+vim.cmd([[
+highlight Normal guibg=0
+highlight NormalNC guibg=0
+highlight SignColumn guibg=0
+highlight StatusLine guibg=#111111
+highlight CursorLine guibg=#222222
+highlight Visual guibg=#222222
+]])
