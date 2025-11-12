@@ -1,8 +1,9 @@
+//@ pragma UseQApplication
 import Quickshell
 import QtQuick
 
-// import "main"
-import "simple"
+import "main"
+//import "simple"
 
 Scope {
     Variants {

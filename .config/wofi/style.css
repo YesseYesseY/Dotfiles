@@ -1,15 +1,17 @@
+* {
+    border: 0px;
+    border-radius: 0;
+}
+
 #window, #input {
     background-color: #000000;
     color: #FFFFFF;
     border: 2px white solid;
-    border-radius: 0;
 }
 
 #entry:selected {
     background-color: #FFFFFF;
     color: #000000;
-    border: 0px;
-    border-radius: 0;
 }
 
 #text:selected {
