@@ -7,6 +7,7 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias msbuild-release='msbuild /p:Configuration=Release'
 PS1='[\u@\h \W]\$ '
 
 export PATH=~/msvc/bin/x64:~/Apps:$PATH
