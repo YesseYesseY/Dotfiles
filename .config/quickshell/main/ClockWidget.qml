@@ -1,7 +1,7 @@
 import QtQuick
 import Quickshell
 import QtQuick.Controls
-import ""
+import "../"
 
 BarButton {
     id: root
