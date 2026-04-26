@@ -24,7 +24,7 @@ vim.pack.add{
 
 require("telescope").setup {
     defaults = {
-        file_ignore_patterns = { "node_modules", "bin", "obj" }
+        file_ignore_patterns = { "node_modules", "bin/", "obj/" }
     }
 }
 
