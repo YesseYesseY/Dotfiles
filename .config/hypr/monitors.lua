@@ -1,6 +1,5 @@
-local isUsingLaptop = true -- TODO
-
-if isUsingLaptop then
+local monitors = hl.get_monitors()
+if #monitors > 0 and monitors[1].name == "eDP-1" then
     hl.monitor({
       output = "eDP-1",
       mode = "2560x1600@165",

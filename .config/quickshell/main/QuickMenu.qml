@@ -91,8 +91,8 @@ BarButton {
                 Row {
                     spacing: 10
                     BetterButton {
-                        text: "\udb81\udd7e"
-                        onClicked: pavu.running = true
+                        text: "\udb80\udf43"
+                        onClicked: hyprshutdown.running = true
                         height: 50
                         width: height
                         radius: 10
@@ -102,25 +102,8 @@ BarButton {
                         }
 
                         Process {
-                            id: pavu
-                            command: ["pavucontrol"] // TODO not depend on pavucontrol
-                        }
-                    }
-
-                    BetterButton {
-                        text: "\udb80\udcaf"
-                        onClicked: bluetooth.running = true
-                        height: 50
-                        width: height
-                        radius: 10
-                        border {
-                            color: "white"
-                            width: 2
-                        }
-
-                        Process {
-                            id: bluetooth
-                            command: ["notify-send", "Quickshell",  "Sorry i haven't implemented bluetooth yet :("]
+                            id: hyprshutdown
+                            command: ["uwsm", "stop"]
                         }
                     }
                 }

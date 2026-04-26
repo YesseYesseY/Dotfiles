@@ -20,7 +20,7 @@ Row {
             text: modelData.id
             textColor: selected ? "cyan" : "white"
 
-            onClicked: if (!selected) Hyprland.dispatch(`workspace ${modelData.id}`)
+            onClicked: if (!selected) Hyprland.dispatch(`hl.dsp.focus({ workspace = ${modelData.id} })`)
         }
     }
 
@@ -29,6 +29,6 @@ Row {
         textColor: "white"
         bar: root.bar
 
-        onClicked: Hyprland.dispatch(`workspace ${Hyprland.workspaces.values[Hyprland.workspaces.values.length - 1].id + 1}`)
+        onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${Hyprland.workspaces.values[Hyprland.workspaces.values.length - 1].id + 1} })`)
     }
 }
