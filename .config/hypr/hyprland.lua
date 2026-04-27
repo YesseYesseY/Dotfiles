@@ -1,5 +1,7 @@
 require("binds")
 require("monitors")
+require("windows")
+require("gestures")
 
 hl.on("hyprland.start", function () 
     hl.exec_cmd("quickshell")
@@ -25,25 +27,39 @@ hl.config({
 
         layout = "dwindle",
     },
-})
 
-hl.config({
     decoration = {
         rounding = 10,
         rounding_power = 2,
-    }
-})
+    },
 
-hl.config({
     animations = {
         enabled = true
-    }
-})
+    },
 
-hl.config({
     dwindle = {
         preserve_split = true
-    }
+    },
+
+    input = {
+        kb_layout  = "se",
+        kb_variant = "",
+        kb_model   = "",
+        kb_options = "",
+        kb_rules   = "",
+
+        follow_mouse = 1,
+
+        sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
+
+        touchpad = {
+            natural_scroll = false,
+        },
+    },
+
+    misc = {
+        force_default_wallpaper = 2
+    },
 })
 
 hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}    } })
@@ -69,27 +85,3 @@ hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "
 hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
-
-hl.config({
-    input = {
-        kb_layout  = "se",
-        kb_variant = "",
-        kb_model   = "",
-        kb_options = "",
-        kb_rules   = "",
-
-        follow_mouse = 1,
-
-        sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
-
-        touchpad = {
-            natural_scroll = false,
-        },
-    },
-})
-
-hl.config({
-    misc = {
-        force_default_wallpaper = 2
-    },
-})
