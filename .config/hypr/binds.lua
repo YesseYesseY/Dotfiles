@@ -1,28 +1,53 @@
-local mainMod = "SUPER"
+local main_mod = "SUPER"
 
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd("alacritty"))
-hl.bind(mainMod .. " + DELETE", hl.dsp.window.close())
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("wofi -i --show drun"))
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.layout("swapsplit"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
+local terminal = "alacritty"
+local menu = "hyprlauncher" -- "wofi -i --show drun"
+
+hl.bind(main_mod .. " + Q", hl.dsp.exec_cmd(terminal))
+hl.bind(main_mod .. " + DELETE", hl.dsp.window.close())
+hl.bind(main_mod .. " + E", hl.dsp.exec_cmd("dolphin"))
+hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(main_mod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(main_mod .. " + SHIFT + J", hl.dsp.layout("swapsplit"))
+hl.bind(main_mod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
+hl.bind(main_mod .. " + SHIFT + F", hl.dsp.window.fullscreen())
 
 for i, dir in pairs({ "up", "right", "down", "left" }) do
-    hl.bind(mainMod .. " + " .. dir, hl.dsp.focus({ direction = dir }))
-    hl.bind(mainMod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
+    hl.bind(main_mod .. " + " .. dir, hl.dsp.focus({ direction = dir }))
+    hl.bind(main_mod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
 end
 
 for i = 1, 10 do
     local key = i % 10
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i}))
+    hl.bind(main_mod .. " + " .. key, hl.dsp.focus({ workspace = i}))
+    hl.bind(main_mod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i}))
 end
 
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- Fermium
+local function launch_fermium_client()
+    hl.dispatch(hl.dsp.exec_cmd(
+        "wine /home/yes/Apps/FNL " ..
+        "\"Z:/home/yes/WinApps/$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]*\\.[0-9]*\" | tr \"\n\" \",\"))\" " ..
+        "\"-iZ:/home/yes/Apps/redirect.dll\" " ..
+        "\"-w30000\" \"-iZ:/home/yes/Programming/Fermium/bin/FermiumClient.dll\" "))
+end
+
+local function launch_fermium_server()
+    hl.dispatch(hl.dsp.exec_cmd(
+        "wine /home/yes/Apps/FNL " ..
+        "\"Z:/home/yes/WinApps/$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]*\\.[0-9]*\" | tr \"\n\" \",\"))\" " ..
+        "-h " ..
+        "\"-iZ:/home/yes/Apps/redirect.dll\" " ..
+        "\"-w20000\" \"-iZ:/home/yes/Programming/Fermium/bin/FermiumServer.dll\" "))
+end
+
+hl.bind(main_mod .. " + F11", launch_fermium_client)
+hl.bind(main_mod .. " + F12", launch_fermium_server)
+
+-- Mouse
+hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(main_mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 
 -- Laptop multimedia keys for volume and LCD brightness
