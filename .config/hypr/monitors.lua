@@ -1,5 +1,5 @@
 local monitors = hl.get_monitors()
-if #monitors > 0 and monitors[1].name == "eDP-1" then
+if io.popen("hostnamectl chassis"):read() == "laptop" then
     hl.monitor({
       output = "eDP-1",
       mode = "2560x1600@165",

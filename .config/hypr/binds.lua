@@ -1,7 +1,7 @@
 local main_mod = "SUPER"
 
 local terminal = "alacritty"
-local menu = "hyprlauncher" -- "wofi -i --show drun"
+local menu = "wofi -i --show drun"
 
 hl.bind(main_mod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + DELETE", hl.dsp.window.close())
@@ -25,12 +25,42 @@ for i = 1, 10 do
 end
 
 -- Fermium
-local function launch_fermium_client()
+local function launch_fermium_client(amount)
+    amount = amount or 1
+
+    fn_path = "\"Z:/home/yes/WinApps/$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]*\\.[0-9]*\" | tr \"\n\" \",\"))\" "
+    username = "-uYesseYYesseY "
+    for i = 1, amount do
+        if amount > 1 then
+            username = string.format("-uYesseYYesseY_%i ", i)
+        else
+            username = "-uYesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l) "
+        end
+        hl.dispatch(hl.dsp.exec_cmd(
+            "wine /home/yes/Apps/FNL "
+            .. fn_path
+            .. username
+            .. "\"-iZ:/home/yes/Apps/redirect.dll\" "
+            .. "\"-w30000\" \"-iZ:/home/yes/Programming/Fermium/bin/FermiumClient.dll\" "
+        ))
+    end
+end
+
+local function launch_sdk_dump()
     hl.dispatch(hl.dsp.exec_cmd(
         "wine /home/yes/Apps/FNL " ..
         "\"Z:/home/yes/WinApps/$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]*\\.[0-9]*\" | tr \"\n\" \",\"))\" " ..
+        "-h" ..
         "\"-iZ:/home/yes/Apps/redirect.dll\" " ..
-        "\"-w30000\" \"-iZ:/home/yes/Programming/Fermium/bin/FermiumClient.dll\" "))
+        "\"-w20000\" \"-iZ:/home/yes/Apps/Dumper-7.dll\" "))
+end
+
+local function launch_normal()
+    hl.dispatch(hl.dsp.exec_cmd(
+        "wine /home/yes/Apps/FNL "
+        .. "\"Z:/home/yes/WinApps/$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]*\\.[0-9]*\" | tr \"\n\" \",\"))\" "
+        .. "\"-iZ:/home/yes/Apps/redirect.dll\" "
+    ))
 end
 
 local function launch_fermium_server()
@@ -42,6 +72,11 @@ local function launch_fermium_server()
         "\"-w20000\" \"-iZ:/home/yes/Programming/Fermium/bin/FermiumServer.dll\" "))
 end
 
+hl.bind(main_mod .. " + F8", launch_normal)
+hl.bind(main_mod .. " + F9", launch_sdk_dump)
+hl.bind(main_mod .. " + F10", function ()
+    launch_fermium_client(4)
+end)
 hl.bind(main_mod .. " + F11", launch_fermium_client)
 hl.bind(main_mod .. " + F12", launch_fermium_server)
 
