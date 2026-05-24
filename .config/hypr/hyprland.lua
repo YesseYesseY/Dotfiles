@@ -3,6 +3,8 @@ require("monitors")
 require("windows")
 require("gestures")
 
+require("fortnite")
+
 hl.on("hyprland.start", function () 
     hl.exec_cmd("quickshell")
 end)
