@@ -4,20 +4,26 @@ local projects = {
     [1] = {
         ["name"] = "Fermium",
         ["build"] = "any",
-        ["client"] = "Z:/home/yes/Programming/Fermium/bin/FermiumClient.dll",
-        ["server"] = "Z:/home/yes/Programming/Fermium/bin/FermiumServer.dll",
+        ["client"] = "Z:/home/yes/Projects/Fermium/bin/FermiumClient.dll",
+        ["server"] = "Z:/home/yes/Projects/Fermium/bin/FermiumServer.dll",
     },
     [2] = {
         ["name"] = "HeistedServer",
         ["build"] = "26.30",
-        ["client"] = "Z:/home/yes/Programming/HeistedServer/bin/HeistedClient.dll",
-        ["server"] = "Z:/home/yes/Programming/HeistedServer/bin/HeistedServer.dll",
+        ["client"] = "Z:/home/yes/Projects/HeistedServer/bin/HeistedClient.dll",
+        ["server"] = "Z:/home/yes/Projects/HeistedServer/bin/HeistedServer.dll",
     },
     [3] = {
         ["name"] = "ConfiniumServer",
         ["build"] = "19.40",
-        ["client"] = "Z:/home/yes/Programming/ConfiniumServer/bin/ConfiniumClient.dll",
-        ["server"] = "Z:/home/yes/Programming/ConfiniumServer/bin/ConfiniumServer.dll",
+        ["client"] = "Z:/home/yes/Projects/ConfiniumServer/bin/ConfiniumClient.dll",
+        ["server"] = "Z:/home/yes/Projects/ConfiniumServer/bin/ConfiniumServer.dll",
+    },
+    [4] = {
+        ["name"] = "Kismet-7",
+        ["build"] = "any",
+        ["client"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
+        ["server"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
     },
 }
 local current_project_idx = 1
