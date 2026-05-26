@@ -12,6 +12,7 @@ local projects = {
         ["build"] = "26.30",
         ["client"] = "Z:/home/yes/Projects/HeistedServer/bin/HeistedClient.dll",
         ["server"] = "Z:/home/yes/Projects/HeistedServer/bin/HeistedServer.dll",
+        ["wait"] = "20000"
     },
     [3] = {
         ["name"] = "ConfiniumServer",
@@ -31,7 +32,7 @@ local current_project_idx = 1
 local builds_path = "Z:/home/yes/WinApps/"
 local fnl_path = "Z:/home/yes/Apps/FNL"
 local redirect_path = "Z:/home/yes/Apps/redirect.dll"
-local wait_time = "30000"
+local default_wait_time = "30000"
 
 local function launch_current_project(client, amount)
     amount = amount or 1
@@ -55,6 +56,8 @@ local function launch_current_project(client, amount)
     else
         extra_args = "-h"
     end
+
+    local wait_time = current_project["wait"] or default_wait_time
 
     username = "server"
     for i = 1, amount do
