@@ -12,6 +12,7 @@ hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(main_mod .. " + SHIFT + J", hl.dsp.layout("swapsplit"))
 hl.bind(main_mod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
 hl.bind(main_mod .. " + SHIFT + F", hl.dsp.window.fullscreen())
+hl.bind("CTRL + C", hl.dsp.exec_cmd("xclip -o -selection clipboard 2>/dev/null | grep -q . && xclip -o -selection clipboard | wl-copy"), { release = true, non_consuming = true })
 
 for i, dir in pairs({ "up", "right", "down", "left" }) do
     hl.bind(main_mod .. " + " .. dir, hl.dsp.focus({ direction = dir }))
