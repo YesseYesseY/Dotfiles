@@ -26,6 +26,12 @@ local projects = {
         ["client"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
         ["server"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
     },
+    [5] = {
+        ["name"] = "FnKismetDecompiler",
+        ["build"] = "any",
+        ["client"] = "Z:/home/yes/Projects/FnKismetDecompiler/bin/KismetDecompiler.dll",
+        ["server"] = "Z:/home/yes/Projects/FnKismetDecompiler/bin/KismetDecompiler.dll",
+    }
 }
 local current_project_idx = 1
 
@@ -40,7 +46,7 @@ local function launch_current_project(client, amount)
     current_project = projects[current_project_idx]
 
     if current_project["build"] == "any" then
-        fn_path = string.format("%s$(hyprlauncher -o $(ls ~/WinApps/ | grep \"[0-9]\\+\\.[0-9]\\+\" | tr \"\n\" \",\"))", builds_path)
+        fn_path = string.format("%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)", builds_path)
     else
         fn_path = string.format("%s%s", builds_path, current_project["build"])
     end
