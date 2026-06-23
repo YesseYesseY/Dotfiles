@@ -21,24 +21,59 @@ local projects = {
         ["server"] = "Z:/home/yes/Projects/ConfiniumServer/bin/ConfiniumServer.dll",
     },
     [4] = {
-        ["name"] = "Kismet-7",
-        ["build"] = "any",
-        ["client"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
-        ["server"] = "Z:/home/yes/Projects/Kismet-7/bin/Kismet-7.dll",
+        ["name"] = "MegaFnServer",
+        ["build"] = "24.40",
+        ["client"] = "Z:/home/yes/Projects/MegaFnServer/bin/MegaClient.dll",
+        ["server"] = "Z:/home/yes/Projects/MegaFnServer/bin/MegaServer.dll",
     },
-    [5] = {
-        ["name"] = "FnKismetDecompiler",
-        ["build"] = "any",
-        ["client"] = "Z:/home/yes/Projects/FnKismetDecompiler/bin/KismetDecompiler.dll",
-        ["server"] = "Z:/home/yes/Projects/FnKismetDecompiler/bin/KismetDecompiler.dll",
-    }
 }
 local current_project_idx = 1
+
+local tools = {
+    [1] = {
+        ["name"] = "None",
+    },
+    [2] = {
+        ["name"] = "FnKismetDecompiler",
+        ["path"] = "Z:/home/yes/Projects/FnKismetDecompiler/bin/KismetDecompiler.dll",
+    },
+    [3] = {
+        ["name"] = "Dumper-7",
+        ["path"] = "Z:/home/yes/Projects/Dumper-7/x64/Release/Dumper-7.dll",
+    },
+}
+local current_tool_idx = 1
 
 local builds_path = "Z:/home/yes/WinApps/"
 local fnl_path = "Z:/home/yes/Apps/FNL"
 local redirect_path = "Z:/home/yes/Apps/redirect.dll"
 local default_wait_time = "30000"
+
+local function launch_no_project(client)
+    fn_path = string.format("%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)", builds_path)
+
+    if client then
+        extra_args = ""
+    else
+        extra_args = "-h"
+    end
+
+    end_args = ""
+    wait_time = 0
+
+    current_tool = tools[current_tool_idx]
+    tool_dll_path = current_tool["path"]
+    if tool_dll_path then
+        end_args = string.format("\"-i%s\"", tool_dll_path)
+        wait_time = default_wait_time
+    end
+
+    username = "YesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l) "
+
+    hl.dispatch(hl.dsp.exec_cmd(
+        string.format("wine %s \"%s\" \"-u%s\" %s \"-i%s\" -w%s %s", fnl_path, fn_path, username, extra_args, redirect_path, wait_time, end_args)
+    ))
+end
 
 local function launch_current_project(client, amount)
     amount = amount or 1
@@ -46,7 +81,7 @@ local function launch_current_project(client, amount)
     current_project = projects[current_project_idx]
 
     if current_project["build"] == "any" then
-        fn_path = string.format("%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)", builds_path)
+        fn_path = "$(cat fnver)"
     else
         fn_path = string.format("%s%s", builds_path, current_project["build"])
     end
@@ -63,20 +98,28 @@ local function launch_current_project(client, amount)
         extra_args = "-h"
     end
 
+    end_args = ""
+
+    current_tool = tools[current_tool_idx]
+    tool_dll_path = current_tool["path"]
+    if tool_dll_path then
+        end_args = string.format("\"-i%s\"", tool_dll_path)
+    end
+
     local wait_time = current_project["wait"] or default_wait_time
 
     username = "server"
     for i = 1, amount do
         if client then
             if amount > 1 then
-                username = string.format("YesseYYesseY_%i ", i)
+                username = string.format("YesseYYesseY_%i", i)
             else
-                username = "YesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l) "
+                username = "YesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l)"
             end
         end
 
         hl.dispatch(hl.dsp.exec_cmd(
-            string.format("wine %s \"%s\" \"-u%s\" %s \"-i%s\" -w%s \"-i%s\" ", fnl_path, fn_path, username, extra_args, redirect_path, wait_time, dll_path)
+            string.format("wine %s \"%s\" \"-u%s\" %s \"-i%s\" -w%s \"-i%s\" %s", fnl_path, fn_path, username, extra_args, redirect_path, wait_time, dll_path, end_args)
         ))
     end
 end
@@ -89,6 +132,16 @@ end)
 -- Launch project as client
 hl.bind(main_mod .. " + F11", function ()
     launch_current_project(true, 1)
+end)
+
+-- Launch project as server
+hl.bind(main_mod .. " + SHIFT + F12", function ()
+    launch_no_project(false)
+end)
+
+-- Launch project as client
+hl.bind(main_mod .. " + SHIFT + F11", function ()
+    launch_no_project(true)
 end)
 
 -- Multi-Launch project as client
@@ -106,4 +159,20 @@ hl.bind(main_mod .. " + F9", function ()
         text = string.format("Selected Project: %s", projects[current_project_idx]["name"]),
         duration = 2500
     })
+end)
+
+hl.bind(main_mod .. " + F8", function ()
+    current_tool_idx = current_tool_idx + 1
+    if current_tool_idx > #tools then
+        current_tool_idx = 1
+    end
+
+    hl.notification.create({
+        text = string.format("Selected Tool: %s", tools[current_tool_idx]["name"]),
+        duration = 2500
+    })
+end)
+
+hl.bind(main_mod .. " + F7", function ()
+    hl.dispatch(hl.dsp.exec_cmd(string.format("echo \"%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)\" > fnver", builds_path)))
 end)
