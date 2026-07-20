@@ -45,7 +45,7 @@ local tools = {
 local current_tool_idx = 1
 
 local builds_path = "Z:/home/yes/WinApps/"
-local fnl_path = "Z:/home/yes/Apps/FNL"
+local curium_path = "Z:/home/yes/Projects/Curium/bin/Debug/net10.0/win-x64/Curium.exe"
 local redirect_path = "Z:/home/yes/Apps/redirect.dll"
 local default_wait_time = "30000"
 
@@ -58,20 +58,20 @@ local function launch_no_project(client)
         extra_args = "-h"
     end
 
-    end_args = ""
+    extra = ""
     wait_time = 0
 
     current_tool = tools[current_tool_idx]
     tool_dll_path = current_tool["path"]
     if tool_dll_path then
-        end_args = string.format("\"-i%s\"", tool_dll_path)
+        extra = string.format('-p "w%s;i%s"', wait_time, tool_dll_path)
         wait_time = default_wait_time
     end
 
     username = "YesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l) "
 
     hl.dispatch(hl.dsp.exec_cmd(
-        string.format("wine %s \"%s\" \"-u%s\" %s \"-i%s\" -w%s %s", fnl_path, fn_path, username, extra_args, redirect_path, wait_time, end_args)
+        string.format('wine %s -u "%s" -d "%s" -r "%s" "%s" %s', curium_path, username, fn_path, redirect_path, extra_args, extra)
     ))
 end
 
@@ -98,12 +98,12 @@ local function launch_current_project(client, amount)
         extra_args = "-h"
     end
 
-    end_args = ""
+    extra = ""
 
     current_tool = tools[current_tool_idx]
     tool_dll_path = current_tool["path"]
     if tool_dll_path then
-        end_args = string.format("\"-i%s\"", tool_dll_path)
+        extra = string.format('i%s', tool_dll_path)
     end
 
     local wait_time = current_project["wait"] or default_wait_time
@@ -119,7 +119,7 @@ local function launch_current_project(client, amount)
         end
 
         hl.dispatch(hl.dsp.exec_cmd(
-            string.format("wine %s \"%s\" \"-u%s\" %s \"-i%s\" -w%s \"-i%s\" %s", fnl_path, fn_path, username, extra_args, redirect_path, wait_time, dll_path, end_args)
+            string.format('wine %s -u "%s" -d "%s" -r "%s" "%s" -p "w%s;i%s%s"', curium_path, username, fn_path, redirect_path, extra_args, wait_time, dll_path, extra)
         ))
     end
 end

@@ -43,7 +43,9 @@ vim.cmd.colorscheme 'tokyonight-night'
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-        vim.lsp.completion.enable(true, args.data.client_id, args.buf)
+        vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
+            autotrigger = false,
+        })
     end
 })
 
@@ -58,6 +60,7 @@ vim.lsp.enable('ts_ls')
 vim.lsp.enable('pylsp')
 vim.lsp.enable('omnisharp')
 vim.lsp.enable('zls')
+vim.lsp.enable('gopls')
 
 vim.cmd([[
 highlight Normal guibg=0

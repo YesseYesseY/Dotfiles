@@ -65,6 +65,10 @@ hl.config({
     misc = {
         force_default_wallpaper = 2
     },
+
+    cursor = {
+        no_hardware_cursors = false
+    }
 })
 
 hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}    } })
