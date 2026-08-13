@@ -64,8 +64,8 @@ local function launch_no_project(client)
     current_tool = tools[current_tool_idx]
     tool_dll_path = current_tool["path"]
     if tool_dll_path then
-        extra = string.format('-p "w%s;i%s"', wait_time, tool_dll_path)
         wait_time = default_wait_time
+        extra = string.format('-p "w%s;i%s"', wait_time, tool_dll_path)
     end
 
     username = "YesseYYesseY_$(winedbg --command \"info proc\" | grep \"FortniteClient-Win64-Shipping.exe\" | wc -l) "
@@ -174,5 +174,5 @@ hl.bind(main_mod .. " + F8", function ()
 end)
 
 hl.bind(main_mod .. " + F7", function ()
-    hl.dispatch(hl.dsp.exec_cmd(string.format("echo \"%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)\" > fnver", builds_path)))
+    hl.dispatch(hl.dsp.exec_cmd(string.format("echo \"%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*\\(-CL-[0-9]*\\)\\?$\" | wofi -d)\" > fnver", builds_path)))
 end)
