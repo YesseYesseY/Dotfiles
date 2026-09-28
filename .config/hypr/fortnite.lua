@@ -26,6 +26,12 @@ local projects = {
         ["client"] = "Z:/home/yes/Projects/MegaFnServer/bin/MegaClient.dll",
         ["server"] = "Z:/home/yes/Projects/MegaFnServer/bin/MegaServer.dll",
     },
+    [5] = {
+        ["name"] = "Thulium",
+        ["build"] = "any",
+        ["client"] = "Z:/home/yes/Projects/Thulium/bin/ThuliumClient.dll",
+        ["server"] = "Z:/home/yes/Projects/Thulium/bin/ThuliumServer.dll",
+    },
 }
 local current_project_idx = 1
 
@@ -50,7 +56,7 @@ local redirect_path = "Z:/home/yes/Apps/redirect.dll"
 local default_wait_time = "30000"
 
 local function launch_no_project(client)
-    fn_path = string.format("%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*$\" | wofi -d)", builds_path)
+    fn_path = string.format("%s$(ls ~/WinApps/ | grep \"^[0-9]*\\.[0-9]*\\(-CL-[0-9]*\\)\\?$\" | wofi -d)", builds_path)
 
     if client then
         extra_args = ""
